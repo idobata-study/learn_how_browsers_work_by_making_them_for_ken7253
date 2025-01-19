@@ -3,5 +3,8 @@ name = "saba"
 version = "0.1.0"
 edition = "2021"
 
+[workspace]
+members = ["saba_core"]
+
 [dependencies]
 noli = { git = "https://github.com/hikalium/wasabi.git", branch = "for_saba" }
