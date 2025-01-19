@@ -1,8 +1,7 @@
 extern crate alloc;
 use alloc::format;
-use alloc::string::String;
+use alloc::string::{String, ToString};
 use alloc::vec::Vec;
-use core::alloc::string::ToString;
 use noli::net::{lookup_host, SocketAddr, TcpStream};
 use saba_core::error::Error;
 use saba_core::http::HttpResponse;
@@ -26,14 +25,16 @@ impl HttpClient {
         };
 
         if ips.len() < 1 {
-            return Err(Error::Network("Failed to find IP addresses"));
+            return Err(Error::Network("Failed to find IP addresses".to_string()));
         }
 
         let socket_addr: SocketAddr = (ips[0], port).into();
         let mut stream = match TcpStream::connect(socket_addr) {
             Ok(stream) => stream,
             Err(_) => {
-                return Err(Error::Network("Failed to connect to TCP stream"));
+                return Err(Error::Network(
+                    "Failed to connect to TCP stream".to_string(),
+                ));
             }
         };
 
@@ -49,7 +50,11 @@ impl HttpClient {
 
         let _bytes_written = match stream.write(request.as_bytes()) {
             Ok(bytes) => bytes,
-            Err(_) => return Err(Error::Network("Failed to send a request to TCP stream")),
+            Err(_) => {
+                return Err(Error::Network(
+                    "Failed to send a request to TCP stream".to_string(),
+                ))
+            }
         };
 
         let mut received = Vec::new();
@@ -59,7 +64,7 @@ impl HttpClient {
                 Ok(bytes) => bytes,
                 Err(_) => {
                     return Err(Error::Network(
-                        "Failed to receive a request from TCP stream",
+                        "Failed to receive a request from TCP stream".to_string(),
                     ));
                 }
             };
