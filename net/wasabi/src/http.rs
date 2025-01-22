@@ -76,6 +76,9 @@ impl HttpClient {
             received.extend_from_slice(&buf[..bytes_read]);
         }
 
-        todo!("後で実装")
+        match core::str::from_utf8(&received) {
+            Ok(response) => HttpResponse::new(response.to_string()),
+            Err(e) => Err(Error::Network(format!("Invalid received response: {}", e))),
+        }
     }
 }
