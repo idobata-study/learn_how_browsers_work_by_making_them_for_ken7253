@@ -1,5 +1,5 @@
 #![no_std]
-#![cfg_attr(not(target_os = "linux"), no_main)]
+#![no_main]
 
 extern crate alloc;
 
@@ -17,6 +17,8 @@ fn main() -> u64 {
             print!("error:\n{:#?}", e)
         }
     }
+
+    0
 }
 
 entry_point!(main);
