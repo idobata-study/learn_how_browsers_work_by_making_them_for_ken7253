@@ -1,5 +1,3 @@
-use core::ops::{Index, Shl};
-
 use alloc::{
     string::{String, ToString},
     vec::Vec,
