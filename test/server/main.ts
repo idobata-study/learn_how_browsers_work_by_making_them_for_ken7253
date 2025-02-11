@@ -25,7 +25,10 @@ Deno.serve(
       try {
         const data = await Deno.readFile(url.pathname);
         const text = decoder.decode(data);
-        return new Response(text, { status: 200 });
+        return new Response(text, {
+          status: 200,
+          headers: { "Content-Type": "text/html" },
+        });
       } catch (error) {
         if (error instanceof Deno.errors.NotFound) {
           console.log("[FS]: Not Found");
